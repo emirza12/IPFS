@@ -11,19 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Load environment variables
-        run: |
-          echo "PINATA_API_KEY=${{ secrets.PINATA_API_KEY }}" >> $GITHUB_ENV
-          echo "PINATA_SECRET_API_KEY=${{ secrets.PINATA_SECRET_API_KEY }}" >> $GITHUB_ENV
-      
       - name: Upload to Pinata
         id: upload
         uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
         with:
           pin-name: 'mon-site'
           path: '.'
-          pinata-api-key: ${{ env.PINATA_API_KEY }}
-          pinata-secret-api-key: ${{ env.PINATA_SECRET_API_KEY }}
+          pinata-api-key: ${{ secrets.PINATA_API_KEY }}
+          pinata-secret-api-key: ${{ secrets.PINATA_SECRET_API_KEY }}
           verbose: true
           remove-old: true
 
