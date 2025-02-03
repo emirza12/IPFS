@@ -11,6 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
+      - name: Prepare build directory
+        run: |
+          mkdir -p build
+          cp index.html style.css build/
+      
       - name: Upload to Pinata
         uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
         with:
