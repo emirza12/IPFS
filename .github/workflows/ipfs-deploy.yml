@@ -10,27 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Prepare build directory
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Build
         run: |
-          mkdir -p build
-          cp index.html style.css build/
-      
-      - name: Upload to Pinata
-        id: upload
+          mkdir build
+          npm run build
+
+      - name: Deploy to IPFS
         uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
         with:
-          pin-name: 'My personal site'
+          pin-name: 'My IPFS Website'
           path: './build'
           pinata-api-key: ${{ secrets.PINATA_API_KEY }}
           pinata-secret-api-key: ${{ secrets.PINATA_SECRET_API_KEY }}
           verbose: true
-          remove-old: false
-
-      - name: Get IPFS Hash
-        if: success()
-        run: |
-          echo "🎉 Site déployé avec succès!"
-          echo "📌 CID: ${{ steps.upload.outputs.hash }}"
-          echo "🌐 URL d'accès:"
-          echo "   - https://ipfs.io/ipfs/${{ steps.upload.outputs.hash }}" 
+          remove-old: false
