@@ -20,7 +20,7 @@ jobs:
         id: upload
         uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
         with:
-          pin-name: 'mon-site-${{ github.sha }}'
+          pin-name: 'mon-site'
           path: '.'
           pinata-api-key: ${{ env.PINATA_API_KEY }}
           pinata-secret-api-key: ${{ env.PINATA_SECRET_API_KEY }}
@@ -28,7 +28,10 @@ jobs:
           remove-old: true
 
       - name: Get IPFS Hash
+        if: success()
         run: |
           echo "🎉 Site déployé avec succès!"
           echo "📌 CID: ${{ steps.upload.outputs.hash }}"
-          echo "🌐 Accessible via: https://gateway.pinata.cloud/ipfs/${{ steps.upload.outputs.hash }}" 
+          echo "🌐 URLs d'accès:"
+          echo "   - https://gateway.pinata.cloud/ipfs/${{ steps.upload.outputs.hash }}"
+          echo "   - https://ipfs.io/ipfs/${{ steps.upload.outputs.hash }}" 
