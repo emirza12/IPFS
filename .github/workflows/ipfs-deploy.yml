@@ -17,6 +17,7 @@ jobs:
           echo "PINATA_SECRET_API_KEY=${{ secrets.PINATA_SECRET_API_KEY }}" >> $GITHUB_ENV
       
       - name: Upload to Pinata
+        id: upload
         uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
         with:
           pin-name: 'mon-site-${{ github.sha }}'
@@ -24,4 +25,10 @@ jobs:
           pinata-api-key: ${{ env.PINATA_API_KEY }}
           pinata-secret-api-key: ${{ env.PINATA_SECRET_API_KEY }}
           verbose: true
-          remove-old: true 
+          remove-old: true
+
+      - name: Get IPFS Hash
+        run: |
+          echo "🎉 Site déployé avec succès!"
+          echo "📌 CID: ${{ steps.upload.outputs.hash }}"
+          echo "🌐 Accessible via: https://gateway.pinata.cloud/ipfs/${{ steps.upload.outputs.hash }}" 
