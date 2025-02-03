@@ -11,10 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Prepare build directory
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Build
         run: |
-          mkdir -p build
-          cp index.html style.css build/
+          mkdir build
+          npm run build
 
       - name: Deploy to IPFS
         id: upload
@@ -30,7 +35,7 @@ jobs:
       - name: Display IPFS URL
         if: success()
         run: |
-          echo "🎉 Site déployé avec succès!"
+          echo "🎉 Successfully deployed!"
           echo "📌 CID: ${{ steps.upload.outputs.hash }}"
-          echo "🌐 URL d'accès:"
+          echo "🌐 Access URL:"
           echo "   - https://ipfs.io/ipfs/${{ steps.upload.outputs.hash }}"
