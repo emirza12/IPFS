@@ -17,6 +17,7 @@ jobs:
           cp index.html style.css build/
       
       - name: Upload to Pinata
+        id: upload
         uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
         with:
           pin-name: 'My personal site'
@@ -32,4 +33,4 @@ jobs:
           echo "🎉 Site déployé avec succès!"
           echo "📌 CID: ${{ steps.upload.outputs.hash }}"
           echo "🌐 URL d'accès:"
-          echo "   - https://cloudflare-ipfs.com/ipfs/${{ steps.upload.outputs.hash }}" 
+          echo "   - https://ipfs.io/ipfs/${{ steps.upload.outputs.hash }}" 
